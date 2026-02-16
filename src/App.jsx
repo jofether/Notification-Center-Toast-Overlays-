@@ -1,64 +1,225 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function App() {
+  const [showToasts, setShowToasts] = useState(true);
+  const [visibleToasts, setVisibleToasts] = useState([1, 2, 3, 4]);
+
+  const toasts = [
+    {
+      id: 1,
+      type: 'success',
+      icon: '✓',
+      title: 'Successfully saved!',
+      message: 'Your changes have been deployed to production.',
+      color: 'green'
+    },
+    {
+      id: 2,
+      type: 'error',
+      icon: '!',
+      title: 'Connection Error',
+      message: 'Unable to sync data. Retrying in 30 seconds.',
+      color: 'red'
+    },
+    {
+      id: 3,
+      type: 'info',
+      icon: 'i',
+      title: 'New Update Available',
+      message: 'Version 2.4.0 is ready to install.',
+      color: 'blue'
+    },
+    {
+      id: 4,
+      type: 'warning',
+      icon: '⚠',
+      title: 'Low Storage',
+      message: 'You have less than 5GB of storage remaining.',
+      color: 'amber'
+    }
+  ];
+const closeToast = (id) => {
+    setVisibleToasts(visibleToasts.filter(toastId => toastId !== id));
+  };
+
+  
   return (
-    <div className="min-h-screen bg-gray-50 font-sans relative">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 font-sans relative overflow-hidden">
       
-      {/* MOCK MAIN CONTENT */}
-      <nav className="bg-white border-b border-gray-200 p-4">
-        <div className="max-w-7xl mx-auto font-bold text-gray-700">AppDashboard</div>
+      {/* Animated Background Elements */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+      <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+
+      {/* NAVIGATION */}
+      <nav className="relative z-10 bg-white/10 backdrop-blur-md border-b border-white/20 p-4 sticky top-0">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-blue-500 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold">✨</span>
+            </div>
+            <span className="font-bold text-white text-lg">TaskHub Pro</span>
+          </div>
+          <div className="hidden md:flex items-center space-x-6 text-white/80 text-sm">
+            <a href="#" className="hover:text-white transition">Dashboard</a>
+            <a href="#" className="hover:text-white transition">Projects</a>
+            <a href="#" className="hover:text-white transition">Team</a>
+            <a href="#" className="hover:text-white transition">Settings</a>
+          </div>
+          <button className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition border border-white/30">Profile</button>
+        </div>
       </nav>
-      <main className="max-w-7xl mx-auto p-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">Dashboard Content</h1>
-        <p className="text-gray-600 mb-8">This is the main area of the page. The notifications should appear floating on the top-right.</p>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="h-32 bg-white rounded shadow border border-gray-200"></div>
-          <div className="h-32 bg-white rounded shadow border border-gray-200"></div>
-          <div className="h-32 bg-white rounded shadow border border-gray-200"></div>
-        </div>
-      </main>
 
-      {/* NOTIFICATION CONTAINER: Fixed to viewport */}
-      {/* FUTURE BUG: Remove 'fixed top-4 right-4' to make it flow with document */}
-      <div className="fixed top-4 right-4 w-80 space-y-4 z-50">
+      {/* MAIN CONTENT */}
+      <main className="relative z-10 max-w-7xl mx-auto px-4 py-8">
         
-        {/* Success Toast */}
-        <div className="bg-white border-l-4 border-green-500 rounded shadow-lg p-4 flex items-start animate-slide-in">
-          <div className="flex-shrink-0 text-green-500">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
-          </div>
-          <div className="ml-3">
-            <h3 className="text-sm font-medium text-gray-900">Successfully saved!</h3>
-            <p className="text-sm text-gray-500 mt-1">Your changes have been deployed.</p>
-          </div>
-          <button className="ml-auto text-gray-400 hover:text-gray-600">×</button>
+        {/* HEADER SECTION */}
+        <div className="mb-12">
+          <h1 className="text-5xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-200 via-blue-200 to-pink-200">
+            Welcome back, Sarah
+          </h1>
+          <p className="text-xl text-white/60">You have 3 new tasks and 5 completed today</p>
         </div>
 
-        {/* Error Toast */}
-        <div className="bg-white border-l-4 border-red-500 rounded shadow-lg p-4 flex items-start animate-slide-in">
-          <div className="flex-shrink-0 text-red-500">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          </div>
-          <div className="ml-3">
-            <h3 className="text-sm font-medium text-gray-900">Connection Error</h3>
-            <p className="text-sm text-gray-500 mt-1">Could not connect to the database.</p>
-          </div>
-          <button className="ml-auto text-gray-400 hover:text-gray-600">×</button>
+        {/* STATS CARDS */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+          {[
+            { label: 'Active Tasks', value: '12', color: 'from-blue-500 to-cyan-500' },
+            { label: 'Completed', value: '48', color: 'from-green-500 to-emerald-500' },
+            { label: 'Team Members', value: '8', color: 'from-purple-500 to-pink-500' },
+            { label: 'Efficiency', value: '94%', color: 'from-orange-500 to-red-500' }
+          ].map((stat, i) => (
+            <div key={i} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 hover:bg-white/20 transition">
+              <p className="text-white/60 text-sm mb-2">{stat.label}</p>
+              <p className={`text-4xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                {stat.value}
+              </p>
+            </div>
+          ))}
         </div>
 
-        {/* Info Toast */}
-        <div className="bg-white border-l-4 border-blue-500 rounded shadow-lg p-4 flex items-start animate-slide-in">
-          <div className="flex-shrink-0 text-blue-500">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        {/* MAIN CONTENT GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+          
+          {/* Large Featured Card */}
+          <div className="lg:col-span-2 bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-md border border-white/20 rounded-2xl p-8">
+            <h2 className="text-2xl font-bold text-white mb-6">Today's Overview</h2>
+            
+            {/* Task Items */}
+            <div className="space-y-4">
+              {[
+                { title: 'Design system updates', progress: 85, assigned: 'You' },
+                { title: 'API integration tests', progress: 60, assigned: 'Alex' },
+                { title: 'Documentation review', progress: 40, assigned: 'Jordan' },
+                { title: 'Client presentation prep', progress: 90, assigned: 'You' }
+              ].map((task, i) => (
+                <div key={i} className="bg-white/10 rounded-lg p-4 hover:bg-white/15 transition">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-white font-medium">{task.title}</span>
+                    <span className="text-white/50 text-sm">{task.assigned}</span>
+                  </div>
+                  <div className="w-full bg-white/10 rounded-full h-2">
+                    <div 
+                      className="bg-gradient-to-r from-blue-400 to-purple-400 h-2 rounded-full transition-all duration-500"
+                      style={{ width: `${task.progress}%` }}
+                    ></div>
+                  </div>
+                  <div className="text-white/50 text-xs mt-1">{task.progress}% complete</div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="ml-3">
-            <h3 className="text-sm font-medium text-gray-900">New Update</h3>
-            <p className="text-sm text-gray-500 mt-1">Version 2.0 is now available.</p>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Quick Actions */}
+            <div className="bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-md border border-white/20 rounded-2xl p-6">
+              <h3 className="text-lg font-bold text-white mb-4">Quick Actions</h3>
+              <div className="space-y-3">
+                {['Create Task', 'New Project', 'Invite Team', 'Export Report'].map((action, i) => (
+                  <button key={i} className="w-full px-4 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg transition text-sm font-medium border border-white/20">
+                    {action}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Test Notifications */}
+            <div className="bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-md border border-white/20 rounded-2xl p-6">
+              <h3 className="text-lg font-bold text-white mb-4">Test Toasts</h3>
+              <button 
+                onClick={() => setShowToasts(!showToasts)}
+                className="w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white rounded-lg transition font-medium"
+              >
+                {showToasts ? 'Hide' : 'Show'} Notifications
+              </button>
+            </div>
           </div>
-          <button className="ml-auto text-gray-400 hover:text-gray-600">×</button>
         </div>
 
-      </div>
+        {/* RECENT ACTIVITY */}
+        <div className="bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-md border border-white/20 rounded-2xl p-8">
+          <h2 className="text-2xl font-bold text-white mb-6">Recent Activity</h2>
+          <div className="space-y-4">
+            {[
+              { icon: '📝', user: 'Sarah', action: 'created task', target: 'Q1 Planning', time: '2 hours ago' },
+              { icon: '✓', user: 'Alex', action: 'completed', target: 'API Documentation', time: '4 hours ago' },
+              { icon: '💬', user: 'Jordan', action: 'commented on', target: 'Design Review', time: '6 hours ago' },
+              { icon: '🔄', user: 'System', action: 'synced data', target: 'All projects', time: '8 hours ago' }
+            ].map((activity, i) => (
+              <div key={i} className="flex items-center justify-between text-white/80 py-3 border-b border-white/10 last:border-0">
+                <div className="flex items-center space-x-4">
+                  <span className="text-2xl">{activity.icon}</span>
+                  <div>
+                    <p className="font-medium"><span className="text-white">{activity.user}</span> {activity.action} <span className="text-blue-300">{activity.target}</span></p>
+                  </div>
+                </div>
+                <span className="text-white/50 text-sm">{activity.time}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </main>
+      {/* NOTIFICATION CONTAINER */}
+      {showToasts && (
+        <div className="fixed top-24 right-4 w-96 space-y-3 z-50">
+          {toasts.filter(toast => visibleToasts.includes(toast.id)).map((toast) => {
+            const colorClasses = {
+              green: 'from-green-500 to-emerald-500 border-green-400/30',
+              red: 'from-red-500 to-pink-500 border-red-400/30',
+              blue: 'from-blue-500 to-cyan-500 border-blue-400/30',
+              amber: 'from-amber-500 to-orange-500 border-amber-400/30'
+            };
+
+            return (
+              <div key={toast.id} className={`bg-gradient-to-r ${colorClasses[toast.color]} backdrop-blur-md border rounded-xl shadow-2xl p-5 flex items-start animate-slide-in hover:shadow-3xl transition-shadow`}>
+                <div className={`flex-shrink-0 text-2xl w-8 h-8 rounded-full bg-white/20 flex items-center justify-center`}>
+                  {toast.icon}
+                </div>
+                <div className="ml-4 flex-1">
+                  <h3 className="font-semibold text-white text-sm">{toast.title}</h3>
+                  <p className="text-white/80 text-sm mt-1">{toast.message}</p>
+                </div>
+                <button 
+                  onClick={() => closeToast(toast.id)}
+                  className="ml-3 text-white/60 hover:text-white transition text-lg font-bold"
+                >
+                  ×
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* FOOTER */}
+      <footer className="relative z-10 border-t border-white/20 bg-white/5 backdrop-blur-md mt-12">
+        <div className="max-w-7xl mx-auto px-4 py-8 text-center text-white/60 text-sm">
+          <p>© 2024 TaskHub Pro. All rights reserved. | Made with ❤️</p>
+        </div>
+      </footer>
+
     </div>
   );
 }
