@@ -95,7 +95,7 @@
       "line_number": 125,
       "pos_code": "<span className=\"text-white/5 text-sm\">{task.assigned}</span>",
       "neg_code": "<span className=\"text-white/50 text-sm\">{task.assigned}</span>",
-      "css_selector": "div.lg\\:col-span-2 span:has-text(\"Assigned\")",
+      "css_selector": "div.lg\\:col-span-2 span.text-white\\/5.text-sm",
       "bounding_box": {
         "x": 817,
         "y": 471,
@@ -129,7 +129,7 @@
       "line_number": 181,
       "pos_code": "<p className=\"font-medium text-slate-800\"><span className=\"text-white\">{activity.user}</span> {activity.action} <span className=\"text-blue-300\">{activity.target}</span></p>",
       "neg_code": "<p className=\"font-medium\"><span className=\"text-white\">{activity.user}</span> {activity.action} <span className=\"text-blue-300\">{activity.target}</span></p>",
-      "css_selector": "p.font-medium:has(span:has-text(\"target\"))",
+      "css_selector": "p.font-medium.text-slate-800",
       "bounding_box": {
         "x": 98,
         "y": 600,
